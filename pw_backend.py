@@ -1,3 +1,4 @@
+import os
 import subprocess
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -14,17 +15,18 @@ def receive_sequences():
     print(f"Sequence 1: {seq1}")
     print(f"Sequence 2: {seq2}")
     
-    # Save sequences to a FASTA file
-    fasta_filename = "sequences.fasta"
+    #Save sequences to a FASTA file
+    fasta_filename = "in.fna"
     with open(fasta_filename, "w") as fasta_file:
         fasta_file.write(f">seq1\n{seq1}\n")
         fasta_file.write(f">seq2\n{seq2}\n")
 
-    # Call globalAlign.py with the FASTA file as a parameter
-    try:
-        subprocess.run(["python", "globalAlign.py", fasta_filename], check=True)
-    except subprocess.CalledProcessError as e:
-        return jsonify({"error": "Error running globalAlign.py", "details": str(e)}), 500
+    subprocess.run([
+    "python3", "globalAlign.py",
+    "-i", "in.fna",
+    "-o", "out.fna",
+    "-s", "nucleotide.mtx"
+    ])
 
     return jsonify({"status": "sequences received and alignment started"}), 200
 
