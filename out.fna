@@ -1,4 +1,4 @@
->seq1; score=-4
-A-C---GT
->seq2; score=-4
-ACCGGGGT
+>seq1; score=2
+GT
+>seq2; score=2
+GT

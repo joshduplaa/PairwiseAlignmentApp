@@ -22,13 +22,21 @@ def receive_sequences():
         fasta_file.write(f">seq1\n{seq1}\n")
         fasta_file.write(f">seq2\n{seq2}\n")
 
-    subprocess.run([
-    "python3", "globalAlign.py",
-    "-i", "in.fna",
-    "-o", "out.fna",
-    "-s", "nucleotide.mtx"
-    ])
-    
+    if(selected == "Global"):
+        subprocess.run([
+        "python3", "globalAlign.py",
+        "-i", "in.fna",
+        "-o", "out.fna",
+        "-s", "nucleotide.mtx"
+        ])
+    elif(selected == "Local"):
+        subprocess.run([
+        "python3", "localAlign.py",
+        "-i", "in.fna",
+        "-o", "out.fna",
+        "-s", "nucleotide.mtx"
+        ])
+
     #Store aligned sequences from outputfile as strings
     alignedString1 = "Eat"
     alignedString2 = "Dirt"
