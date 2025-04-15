@@ -11,10 +11,11 @@ def receive_sequences():
     data = request.get_json()
     seq1 = data.get('seq1')
     seq2 = data.get('seq2')
-    
+    selected = data.get('selected', [])
+
     print(f"Sequence 1: {seq1}")
     print(f"Sequence 2: {seq2}")
-    
+    print('User selected:', selected)
     #Save sequences to a FASTA file
     fasta_filename = "in.fna"
     with open(fasta_filename, "w") as fasta_file:
@@ -27,8 +28,13 @@ def receive_sequences():
     "-o", "out.fna",
     "-s", "nucleotide.mtx"
     ])
+    
+    #Store aligned sequences as strings
+    alignedString1 = "Eat"
+    alignedString2 = "Dirt"
 
-    return jsonify({"status": "sequences received and alignment started"}), 200
+
+    return jsonify({"status": f"sequences received and alignment started \n {alignedString1}\n {alignedString2}"}), 200
 
 
 if __name__ == '__main__':
