@@ -29,7 +29,7 @@ def receive_sequences():
     "-s", "nucleotide.mtx"
     ])
     
-    #Store aligned sequences as strings
+    #Store aligned sequences from outputfile as strings
     alignedString1 = "Eat"
     alignedString2 = "Dirt"
 
