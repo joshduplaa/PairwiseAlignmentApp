@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import * as React from 'react';
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
 export default function Home() {
   //defining object state (constructors) for backend
   const [seq1, setSeq1] = useState('');

@@ -37,12 +37,19 @@ def receive_sequences():
         "-s", "nucleotide.mtx"
         ])
 
+    
+
+
+    with open("out.fna", "r") as file:
+        sequenceFile = [line.strip() for line in file]
+    
+    alignedSequence1 = sequenceFile[1]
+    alignedSequence2 = sequenceFile[3]
     #Store aligned sequences from outputfile as strings
-    alignedString1 = "Eat"
-    alignedString2 = "Dirt"
+    
 
 
-    return jsonify({"status": f"sequences received and alignment started \n {alignedString1}\n {alignedString2}"}), 200
+    return jsonify({"status": f"sequences received and alignment started \n {alignedSequence1}, {alignedSequence2}"}), 200
 
 
 if __name__ == '__main__':
