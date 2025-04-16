@@ -19,7 +19,7 @@ export default function Home() {
   const handleSubmit = async () => {
 
     //sends values to API, replace API route with secret when possible
-    const res = await fetch('https://eec9-66-76-35-188.ngrok-free.app/align', {
+    const res = await fetch('https://7489-66-76-35-188.ngrok-free.app', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ seq1, seq2, selected }),

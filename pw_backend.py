@@ -6,7 +6,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/align', methods=['POST'])
+@app.route('/', methods=['POST'])
 def receive_sequences():
     data = request.get_json()
     seq1 = data.get('seq1')
