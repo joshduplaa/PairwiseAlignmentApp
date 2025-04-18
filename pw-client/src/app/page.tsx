@@ -17,7 +17,11 @@ export default function Home() {
 
   //Function to handle submit
   const handleSubmit = async () => {
-
+    //Checks if the user has filled in the form correctly
+    if (!seq1 || !seq2 || !selected) {
+      alert('Please fill in both sequences and select an option.');
+      return;
+    }
     //sends values to API, replace API route with secret when possible
     const res = await fetch('http://localhost:5000/', {
       method: 'POST',

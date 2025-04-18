@@ -1,4 +1,4 @@
->seq1; score=-3
-AC-GGTTATATA
->seq2; score=-3
-ACACCACATTTT
+>seq1; score=3
+AAA
+>seq2; score=3
+AAA
