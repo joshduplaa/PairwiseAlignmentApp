@@ -7,7 +7,7 @@ export default function Home() {
   //defining object state (constructors) for backend
   const [seq1, setSeq1] = useState('');
   const [seq2, setSeq2] = useState('');
-  const [sequenceType, setSequenceType] = useState<string>('') //Store a selected sequence type (DNA or Protein)
+  const [sequenceType, setSequenceType] = useState<string>('DNA') //Store a selected sequence type (DNA or Protein)
   const [alignType, setAlignType] = useState<string>('') //Store a selected alignment type option for local or global
   const [response, setResponse] = useState('');
 
@@ -68,14 +68,26 @@ export default function Home() {
         <div className='input'>
           {/**Sequence 1 text box */}
           <textarea placeholder="Sequence 1" value={seq1} onChange={(e) => {
-              const value = e.target.value.toUpperCase().replace(/[^ACGT]/g, '');
-              setSeq1(value);
+              if(sequenceType=="DNA"){
+                const value = e.target.value.toUpperCase().replace(/[^ACGT]/g, '');
+                setSeq1(value);
+              }
+              else if(sequenceType=="Protein"){
+                const value = e.target.value.toUpperCase().replace(/[^ARNDCQEGHILKMFPSTWYVBJZ]/g, '');
+                setSeq1(value);
+              }
             }
           }/>
           {/**Sequence 2 text box */}
           <textarea placeholder="Sequence 2" value={seq2} onChange={(e) => {
-              const value = e.target.value.toUpperCase().replace(/[^ACGT]/g, '');
-              setSeq2(value);
+              if(sequenceType=="DNA"){
+                const value = e.target.value.toUpperCase().replace(/[^ACGT]/g, '');
+                setSeq2(value);
+              }
+              else if(sequenceType=="Protein"){
+                const value = e.target.value.toUpperCase().replace(/[^ARNDCQEGHILKMFPSTWYVBJZ]/g, '');
+                setSeq2(value);
+              }
             }
           }/>
           {/**Alignment Type selection */}
