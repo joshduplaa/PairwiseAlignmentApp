@@ -34,9 +34,17 @@ export default function Home() {
 
       <div className='input'>
         {/**Sequence 1 text box */}
-        <textarea placeholder="Sequence 1" value={seq1} onChange={(e) => setSeq1(e.target.value)}/>
+        <textarea placeholder="Sequence 1" value={seq1} onChange={(e) => {
+            const value = e.target.value.toUpperCase().replace(/[^ACGT]/g, '');
+            setSeq1(value);
+          }
+        }/>
         {/**Sequence 2 text box */}
-        <textarea placeholder="Sequence 2" value={seq2} onChange={(e) => setSeq2(e.target.value)}/>
+        <textarea placeholder="Sequence 2" value={seq2} onChange={(e) => {
+            const value = e.target.value.toUpperCase().replace(/[^ACGT]/g, '');
+            setSeq2(value);
+          }
+        }/>
         {/**Alignment Type selection */}
         {['Global', 'Local'].map((option) => (
           <label key={option} className="block">
