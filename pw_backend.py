@@ -11,25 +11,27 @@ def receive_sequences():
     data = request.get_json()
     seq1 = data.get('seq1')
     seq2 = data.get('seq2')
-    selected = data.get('selected', [])
+    alignType = data.get('alignType', [])
+    sequenceType = data.get('sequenceType', [])
 
     print(f"Sequence 1: {seq1}")
     print(f"Sequence 2: {seq2}")
-    print('User selected:', selected)
+    print('User selected:', alignType)
+    print('User selected:', sequenceType)
     #Save sequences to a FASTA file
     fasta_filename = "in.fna"
     with open(fasta_filename, "w") as fasta_file:
         fasta_file.write(f">seq1\n{seq1}\n")
         fasta_file.write(f">seq2\n{seq2}\n")
 
-    if(selected == "Global"):
+    if(alignType == "Global"):
         subprocess.run([
         "python3", "globalAlign.py",
         "-i", "in.fna",
         "-o", "out.fna",
         "-s", "nucleotide.mtx"
         ])
-    elif(selected == "Local"):
+    elif(alignType == "Local"):
         subprocess.run([
         "python3", "localAlign.py",
         "-i", "in.fna",

@@ -7,26 +7,33 @@ export default function Home() {
   //defining object state (constructors) for backend
   const [seq1, setSeq1] = useState('');
   const [seq2, setSeq2] = useState('');
-  const [selected, setSelected] = useState<string>('') // Store a single selected option
+  const [sequenceType, setSequenceType] = useState<string>('') //Store a selected sequence type (DNA or Protein)
+  const [alignType, setAlignType] = useState<string>('') //Store a selected alignment type option for local or global
   const [response, setResponse] = useState('');
 
-
-  const handleSelection = (value: string) => {
-    setSelected(value)
+  //event handler function for alignment type selection
+  const handleSequenceType = (value: string) => {
+    setSequenceType(value)
   }
+
+  //event handler for alignment type selection
+  const handleAlignTypeSelection = (value: string) => {
+    setAlignType(value)
+  }
+  
 
   //Function to handle submit
   const handleSubmit = async () => {
     //Checks if the user has filled in the form correctly
-    if (!seq1 || !seq2 || !selected) {
-      alert('Please fill in both sequences and select an option.');
+    if (!seq1 || !seq2 || !sequenceType || !alignType) {
+      alert('Make sure all options are selected and the text boxes are not empty!');
       return;
     }
     //sends values to API, replace API route with secret when possible
     const res = await fetch('http://localhost:5000/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ seq1, seq2, selected }),
+      body: JSON.stringify({ seq1, seq2, sequenceType, alignType}),
     });
     const data = await res.json();
     setResponse(data.status);
@@ -34,34 +41,58 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="text-xl font-bold mb-4">Pairwise Alignment</h1>
+      {/**Title */}
+      <h1 className="text-xl font-bold mb-4">Pairwise Alignment Tool</h1>
 
-      <div className='input'>
-        {/**Sequence 1 text box */}
-        <textarea placeholder="Sequence 1" value={seq1} onChange={(e) => {
-            const value = e.target.value.toUpperCase().replace(/[^ACGT]/g, '');
-            setSeq1(value);
-          }
-        }/>
-        {/**Sequence 2 text box */}
-        <textarea placeholder="Sequence 2" value={seq2} onChange={(e) => {
-            const value = e.target.value.toUpperCase().replace(/[^ACGT]/g, '');
-            setSeq2(value);
-          }
-        }/>
-        {/**Alignment Type selection */}
-        {['Global', 'Local'].map((option) => (
-          <label key={option} className="block">
+      {/**Introduction */}
+      <p className="intro text-sm text-gray-600 max-w-xl mb-6">A web app for pairwise DNA and protein sequence alignment using Needleman-Wunsch (global) and Smith-Waterman (local) algorithms. Developed by Joshua Duplaa in Python for Dr. Rees' Bioinformatics course at TTU.</p>
+      
+      <div className='mainform'>
+
+        {/**Sequence Type selection */}
+        <div className="selector">
+          <span>Input Sequence Type - </span>
+          {['DNA', 'Protein'].map((option) => (
+              <label key={option}>
+                <input
+                type="radio"
+                name="sequence_type" //name of button group
+                value={option}
+                checked={sequenceType === option} //check if this option is alignType
+                onChange={() => handleSequenceType(option)} //set the alignType value
+              />
+                <span>{option} </span>
+              </label>
+            ))}
+        </div>
+        <div className='input'>
+          {/**Sequence 1 text box */}
+          <textarea placeholder="Sequence 1" value={seq1} onChange={(e) => {
+              const value = e.target.value.toUpperCase().replace(/[^ACGT]/g, '');
+              setSeq1(value);
+            }
+          }/>
+          {/**Sequence 2 text box */}
+          <textarea placeholder="Sequence 2" value={seq2} onChange={(e) => {
+              const value = e.target.value.toUpperCase().replace(/[^ACGT]/g, '');
+              setSeq2(value);
+            }
+          }/>
+          {/**Alignment Type selection */}
+          <span> Alignment Type - </span>
+          {['Global', 'Local'].map((option) => (
+            <label key={option}>
             <input
             type="radio"
             name="alignment_type" //name of button group
             value={option}
-            checked={selected === option} //check if this option is selected
-            onChange={() => handleSelection(option)} //set the selected value
+            checked={alignType === option} //check if this option is alignType
+            onChange={() => handleAlignTypeSelection(option)} //set the alignType value
           />
-            <span className="ml-2">{option}</span>
+            <span>{option} </span>
           </label>
         ))}
+        </div>
       </div>
       <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleSubmit}>
         Submit

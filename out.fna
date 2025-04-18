@@ -1,4 +1,4 @@
->seq1; score=3
-AAA
->seq2; score=3
-AAA
+>seq1; score=2
+AAAC-CA
+>seq2; score=2
+ACACACA
