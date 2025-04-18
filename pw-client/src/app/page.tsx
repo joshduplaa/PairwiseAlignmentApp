@@ -42,10 +42,10 @@ export default function Home() {
   return (
     <>
       {/**Title */}
-      <h1 className="text-xl font-bold mb-4">Pairwise Alignment Tool</h1>
+      <h1 className="title">Pairwise Alignment Tool</h1>
 
       {/**Introduction */}
-      <p className="intro text-sm text-gray-600 max-w-xl mb-6">A web app for pairwise DNA and protein sequence alignment using Needleman-Wunsch (global) and Smith-Waterman (local) algorithms. Developed by Joshua Duplaa in Python for Dr. Rees' Bioinformatics course at TTU.</p>
+      <p className="intro">A web app for pairwise DNA and protein sequence alignment using Needleman-Wunsch (global) and Smith-Waterman (local) algorithms. Developed by Joshua Duplaa in Python for Dr. Rees&apos;t Bioinformatics course at TTU.</p>
       
       <div className='mainform'>
 
