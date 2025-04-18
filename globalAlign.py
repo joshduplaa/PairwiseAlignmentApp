@@ -192,7 +192,7 @@ def AlignSequence(traceback):
     leftSequence = ""
     topSequence = ""
 
-    while i != 1 and j != 1:
+    while not (i == 1 and j == 1):
         if(traceback[i][j] == "D"):
             #Write both top and left into sequence listtopSequece
             leftSequence = traceback[i][0]+leftSequence

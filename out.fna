@@ -1,4 +1,4 @@
->seq1; score=4
-CCCAGAGT
->seq2; score=4
-CCGAGGGT
+>seq1; score=-1
+CGATC
+>seq2; score=-1
+CGCTA
