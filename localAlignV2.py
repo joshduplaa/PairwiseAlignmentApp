@@ -12,22 +12,36 @@ Python Version: 3.11.3
 =============================================================================
 """
 
-def NeedlemanWunsch(sequencesToAlign, gapPenalty, score_matrix):
-    #build alignMatrix
+def SmithWaterman(sequencesToAlign, gapPenalty, score_matrix):
     alignMatrix = BuildAlignmentMatrix(sequencesToAlign, gapPenalty)
     traceback = BuildTracebackMatrix(sequencesToAlign)
     #iterate through the matrix starting from [2, 2]
     start_row, start_col = 2, 2
+    cellScoreList = []
     for i in range(start_row, len(alignMatrix)):
         for j in range(start_col, len(alignMatrix[i])):
             cellScore, direction = CalculateMaxScore(alignMatrix, i, j, gapPenalty, score_matrix)
+            cellScoreList.append(cellScore)
             alignMatrix[i][j] = cellScore
             traceback[i][j] = direction
+
+    alignmentScore = max(cellScoreList)
+    #find the index of the last occurrence of the cell score to determine where to start in the trace back.
+    for rowIndex in range(len(alignMatrix)):  #iterate over row indices
+        for colIndex in range(len(alignMatrix[rowIndex])):  #iterate over column indices
+            if alignMatrix[rowIndex][colIndex] == alignmentScore:  
+                print("Encountered alignmentScore at:", rowIndex, colIndex)
+                traceRow = rowIndex
+                traceCol = colIndex
+
+
+    alignedSequences = AlignSequence(traceback, traceRow, traceCol) #traceRow and traceCol are starting positions for the traceback
     
-    alignmentScore = alignMatrix[len(alignMatrix)-1][len(alignMatrix[0])-1]
-    alignedSequences = AlignSequence(traceback)
+    #cellScore is the max value in the alignedMatrix
             
     return alignedSequences, alignmentScore
+
+
 
 def BuildAlignmentMatrix(sequencesToAlign, gapPenalty):
     #Matrix of zeroes to be built below of dimensions: sequenceLength1+1 x sequenceLenght2+1
@@ -175,7 +189,7 @@ def AlignSequence(traceback):
     return alignedSequences
 
 def Task2(sequenceList, gapPenalty, score_matrix):
-    alignedSequences, alignmentScore = NeedlemanWunsch(sequenceList, gapPenalty, score_matrix)
+    alignedSequences, alignmentScore = SmithWaterman(sequenceList, gapPenalty, score_matrix)
 
     return alignedSequences, alignmentScore
 
