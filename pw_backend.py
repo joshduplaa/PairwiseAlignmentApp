@@ -2,6 +2,7 @@ import os
 import subprocess
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import globalAlign
 
 app = Flask(__name__)
 CORS(app)
@@ -18,20 +19,26 @@ def receive_sequences():
     print(f"Sequence 2: {seq2}")
     print('User selected:', alignType)
     print('User selected:', sequenceType)
-    #Save sequences to a FASTA file
-    fasta_filename = "in.fna"
-    with open(fasta_filename, "w") as fasta_file:
-        fasta_file.write(f">seq1\n{seq1}\n")
-        fasta_file.write(f">seq2\n{seq2}\n")
 
-    if(alignType == "Global"):
-        subprocess.run([
-        "python3", "globalAlign.py",
-        "-i", "in.fna",
-        "-o", "out.fna",
-        "-s", "nucleotide.mtx"
-        ])
-    elif(alignType == "Local"):
+    if sequenceType == "nucleotide":
+        with open("nucleotide.mtx", "r") as file:
+            score_matrix = file.readlines()
+    elif sequenceType == "protein":
+        with open("BLOSUM50.mtx", "r") as file:
+            score_matrix = file.readlines()
+
+    scoreIndex = 0
+    for row in score_matrix:
+        row = row.strip("\n")
+        score_matrix[scoreIndex] = row
+        scoreIndex += 1
+    score_matrix[0] = "0" + score_matrix[0]
+    score_matrix = [row.split() for row in score_matrix]
+
+    if alignType == "Global":
+        alignedSequences, alignmentScore = globalAlign.main([seq1, seq2], score_matrix)
+
+    elif alignType == "Local":
         subprocess.run([
         "python3", "localAlign.py",
         "-i", "in.fna",
