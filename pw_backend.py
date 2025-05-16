@@ -1,8 +1,19 @@
-import os
-import subprocess
+"""
+=============================================================================
+Title : pw_backend.py
+Description : This is the backend flask app for my pairwise alignment app
+Author : Joshua Duplaa
+Date : 04/10/2025
+Version : 1.0
+Notes : this program has no requirements
+Python Version: 3.11.3
+=============================================================================
+"""
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import globalAlign
+import localAlign
 
 app = Flask(__name__)
 CORS(app)
@@ -20,10 +31,10 @@ def receive_sequences():
     print('User selected:', alignType)
     print('User selected:', sequenceType)
 
-    if sequenceType == "nucleotide":
+    if sequenceType == "DNA":
         with open("nucleotide.mtx", "r") as file:
             score_matrix = file.readlines()
-    elif sequenceType == "protein":
+    elif sequenceType == "Protein":
         with open("BLOSUM50.mtx", "r") as file:
             score_matrix = file.readlines()
 
@@ -39,26 +50,9 @@ def receive_sequences():
         alignedSequences, alignmentScore = globalAlign.main([seq1, seq2], score_matrix)
 
     elif alignType == "Local":
-        subprocess.run([
-        "python3", "localAlign.py",
-        "-i", "in.fna",
-        "-o", "out.fna",
-        "-s", "nucleotide.mtx"
-        ])
+        alignedSequences, alignmentScore = localAlign.main([seq1, seq2], score_matrix)
 
-    
-
-
-    with open("out.fna", "r") as file:
-        sequenceFile = [line.strip() for line in file]
-    
-    alignedSequence1 = sequenceFile[1]
-    alignedSequence2 = sequenceFile[3]
-    #Store aligned sequences from outputfile as strings
-    
-
-
-    return jsonify({"status": f"sequences received and alignment started \n {alignedSequence1}, {alignedSequence2}"}), 200
+    return jsonify({"status": f"sequences received and alignment started \n {alignedSequences}, alignment score {alignmentScore}"}), 200
 
 
 if __name__ == '__main__':

@@ -2,7 +2,7 @@
 """
 =============================================================================
 Title : localAlign.py
-Description : This is an implementation of Needleman Wunch to do global pairwise alignment.
+Description : This is an implementation of  SmithWaterman to do Local pairwise alignment.
 This implementation has been modified to work with the flask backend of the Pairwise Alignment web app
 Author : Joshua Duplaa (R11583588)
 Date : 10/11/2024
